@@ -1,11 +1,12 @@
 package jhonn.deere.code.challenge.services.SQSHandlers;
 
-import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
+
 import java.io.IOException;
 
 @Service
-public class SQSWriterService extends SQSBaseHandler{
+public class SQSWriterService extends SQSBaseHandler {
 
     public SQSWriterService() throws IOException {
         super(Boolean.FALSE);

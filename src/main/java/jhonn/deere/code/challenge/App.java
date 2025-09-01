@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"jhonn.deere.code.challenge.services", "jhonn.deere.code.challenge.controllers"})
+@ComponentScan(basePackages = {"jhonn.deere.code.challenge.services",
+        "jhonn.deere.code.challenge.controllers"})
 public class App {
 
     public static void main(String[] args) {

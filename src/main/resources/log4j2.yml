@@ -1,0 +1,39 @@
+Configuration:
+  status: info
+  Appenders:
+    Console:
+      name: ConsoleAppender
+      target: SYSTEM_OUT
+      PatternLayout:
+        Pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+    File:
+      name: FileAppender
+      fileName: log.txt
+      immediateFlush: true
+      append: true
+      PatternLayout:
+        Pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+      Policies:
+        SizeBasedTriggeringPolicy:
+          size: 5 MB
+      DefaultRollOverStrategy:
+        max: 50
+
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        ref: ConsoleAppender
+    Logger:
+      - name: stdout
+        level: info
+        AppenderRef:
+          - ref: ConsoleAppender
+      - name: org.apache.log4j.ConsoleAppender
+        level: info
+        AppenderRef:
+          - ref: ConsoleAppender
+      - name: org.apache.log4j.RollingFileAppender
+        level: debug
+        AppenderRef:
+          - ref: FileAppender

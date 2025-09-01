@@ -2,23 +2,22 @@ package jhonn.deere.code.challenge.services.utils;
 
 import com.google.gson.Gson;
 import jhonn.deere.code.challenge.dto.Session;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import software.amazon.awssdk.services.sqs.model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Json_message_utils {
-    private static final Logger logger = Logger.getLogger(Json_message_utils.class);
+    private static final Logger LOGGER = LogManager.getLogger(Json_message_utils.class);
 
     public static Session extractSessionFromJson(final String message) {
         try {
-
             Gson gson = new Gson();
             return gson.fromJson(message, Session.class);
-
         } catch (final Exception ex) {
-            logger.error("Error parsing the AWS SQS Message", ex);
+            LOGGER.error("Error parsing the AWS SQS Message", ex);
             throw ex;
         }
     }
@@ -28,7 +27,7 @@ public class Json_message_utils {
             Gson gson = new Gson();
             return gson.toJson(session);
         } catch (Exception ex) {
-            logger.error("Error converting the Session object to JSON", ex);
+            LOGGER.error("Error converting the Session object to JSON", ex);
             throw ex;
         }
     }

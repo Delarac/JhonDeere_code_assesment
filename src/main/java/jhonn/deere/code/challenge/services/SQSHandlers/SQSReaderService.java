@@ -11,17 +11,16 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class SQSReaderService extends SQSBaseHandler{
-    public SQSReaderService( ) throws IOException {
+public class SQSReaderService extends SQSBaseHandler {
+    public SQSReaderService() throws IOException {
         super(Boolean.TRUE);
     }
-
 
     public List<Message> recoverMessages() {
         final ReceiveMessageRequest receiveRequest = ReceiveMessageRequest.builder().queueUrl(queueUrl).build();
         final ReceiveMessageResponse response = sqsClient.receiveMessage(receiveRequest);
         for (Message message : response.messages()) {
-            logger.info(message.body());
+            LOGGER.info(message.body());
             final DeleteMessageRequest deleteRequest = DeleteMessageRequest.builder()
                     .queueUrl(queueUrl)
                     .receiptHandle(message.receiptHandle())

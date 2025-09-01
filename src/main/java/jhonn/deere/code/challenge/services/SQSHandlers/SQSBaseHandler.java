@@ -1,6 +1,7 @@
 package jhonn.deere.code.challenge.services.SQSHandlers;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sqs.SqsClient;
 
@@ -17,7 +18,7 @@ public class SQSBaseHandler {
     protected Region region;
     protected SqsClient sqsClient;
     protected String queueUrl;
-    protected static final Logger logger = Logger.getLogger(SQSBaseHandler.class);
+    protected static final Logger LOGGER = LogManager.getLogger(SQSBaseHandler.class);
 
     public SQSBaseHandler(final boolean reader) throws IOException {
         // THIS WHOLE THING SHOULD BE DEFINED WITH PROPER CREDENTIALS, and TESTED.
@@ -32,7 +33,7 @@ public class SQSBaseHandler {
             this.sqsClient = SqsClient.builder().region(region).build();
             this.queueUrl = prop.getProperty("AWS_QUEUE_DEFINITION");
         } catch (Exception e) {
-            logger.error("ERROR CREATING SQS CONECTION");
+            LOGGER.error("ERROR CREATING SQS CONECTION");
             throw e;
         }
     }
