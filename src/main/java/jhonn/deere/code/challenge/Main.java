@@ -12,14 +12,20 @@ public class Main {
 
     public static void main(String[] args) {
         logger.debug("APP_ENTRY_POINT");
+        try {
 
-        final Session first = Json_message_utils.translateMessage(FIRST_DATASET);
-        final Session second = Json_message_utils.translateMessage(SECOND_DATASET);
+            final SQSReader sqsReader = new SQSReader();
+            final SQSWriter sqsWriter = new SQSWriter();
+            sqsReader.recoverMessagesMock();
+            java.util.List<Session> SQSResponses = Json_message_utils.parseMessages(sqsReader.recoverMessagesMock());
 
 
+            sqsWriter.sendMessageMock("");
 
+        } catch (final Exception ex) {
+            logger.error("Error occurred while recovering messages", ex);
+        }
 
     }
-
 
 }
