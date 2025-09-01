@@ -1,6 +1,6 @@
-package jhonn.deere.code.challenge;
+package jhonn.deere.code.challenge.services.utils;
 
-import jhonn.deere.code.challenge.utils.Json_message_utils;
+import jhonn.deere.code.challenge.services.utils.Json_message_utils;
 import org.apache.log4j.Logger;
 
 import java.net.URI;
@@ -31,7 +31,6 @@ public class ExternalSessionValidator {
             return (response.statusCode() == 200);
         } catch (Exception ex) {
             logger.error("Error calling the validator", ex);
-
         }
         return Boolean.FALSE;
     }

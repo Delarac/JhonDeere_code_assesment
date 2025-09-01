@@ -1,4 +1,4 @@
-package jhonn.deere.code.challenge.model;
+package jhonn.deere.code.challenge.dto;
 
 import com.google.gson.annotations.SerializedName;
 

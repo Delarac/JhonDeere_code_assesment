@@ -1,7 +1,7 @@
-package jhonn.deere.code.challenge.utils;
+package jhonn.deere.code.challenge.services.utils;
 
 import com.google.gson.Gson;
-import jhonn.deere.code.challenge.model.Session;
+import jhonn.deere.code.challenge.dto.Session;
 import org.apache.log4j.Logger;
 import software.amazon.awssdk.services.sqs.model.Message;
 

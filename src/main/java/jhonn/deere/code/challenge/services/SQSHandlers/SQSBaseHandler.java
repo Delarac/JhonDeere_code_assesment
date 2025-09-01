@@ -1,18 +1,14 @@
-package jhonn.deere.code.challenge;
+package jhonn.deere.code.challenge.services.SQSHandlers;
 
 import org.apache.log4j.Logger;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sqs.SqsClient;
-import software.amazon.awssdk.services.sqs.model.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 
-
-public class SQSHandler {
+public class SQSBaseHandler {
     protected static final String FIRST_DATASET = "{sessionGuid: \"a65de8c4-6385-4008-be36-5df0c5104fd5\",sequenceNumber: 1,machineId: 1,data: [{type: \"distance\",unit: \"m\",value: \"100\"},{type: \"workedSurface\",unit: \"m2\",value: \"600\"}]}";
     protected static final String SECOND_DATASET = "{sessionGuid: \"a65de8c4-6385-4008-be36-5df0c5104fd5\",sequenceNumber: 2,machineId: 1,data: [{type: \"distance\",unit: \"m\",value: \"102\"},{type: \"workedSurface\",unit: \"m2\",value: \"610\"}]}";
 
@@ -21,12 +17,12 @@ public class SQSHandler {
     protected Region region;
     protected SqsClient sqsClient;
     protected String queueUrl;
-    protected static final Logger logger = Logger.getLogger(SQSHandler.class);
+    protected static final Logger logger = Logger.getLogger(SQSBaseHandler.class);
 
-    public SQSHandler(final boolean reader) throws IOException {
+    public SQSBaseHandler(final boolean reader) throws IOException {
         // THIS WHOLE THING SHOULD BE DEFINED WITH PROPER CREDENTIALS, and TESTED.
         final InputStream input =
-                SQSHandler.class.getClassLoader().getResourceAsStream(reader ? "aws-credentials-sqs1.properties" : "aws-credentials-sqs2.properties");
+                SQSBaseHandler.class.getClassLoader().getResourceAsStream(reader ? "aws-credentials-sqs1.properties" : "aws-credentials-sqs2.properties");
         Properties prop = new Properties();
         try {
             prop.load(input);
@@ -40,7 +36,6 @@ public class SQSHandler {
             throw e;
         }
     }
-
 
 
 }

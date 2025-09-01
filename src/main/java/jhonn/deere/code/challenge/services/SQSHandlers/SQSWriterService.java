@@ -1,11 +1,13 @@
-package jhonn.deere.code.challenge;
+package jhonn.deere.code.challenge.services.SQSHandlers;
 
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
-
+import org.springframework.stereotype.Service;
 import java.io.IOException;
 
-public class SQSWriter extends SQSHandler {
-    public SQSWriter() throws IOException {
+@Service
+public class SQSWriterService extends SQSBaseHandler{
+
+    public SQSWriterService() throws IOException {
         super(Boolean.FALSE);
     }
 
@@ -22,6 +24,5 @@ public class SQSWriter extends SQSHandler {
     public void sendMessageMock(final String messageBody) {
         // NOT DOING ANYTHING.
     }
-
 
 }

@@ -1,5 +1,6 @@
-package jhonn.deere.code.challenge;
+package jhonn.deere.code.challenge.services.SQSHandlers;
 
+import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.sqs.model.DeleteMessageRequest;
 import software.amazon.awssdk.services.sqs.model.Message;
 import software.amazon.awssdk.services.sqs.model.ReceiveMessageRequest;
@@ -9,10 +10,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-public class SQSReader extends SQSHandler {
-    public SQSReader() throws IOException {
+@Service
+public class SQSReaderService extends SQSBaseHandler{
+    public SQSReaderService( ) throws IOException {
         super(Boolean.TRUE);
     }
+
 
     public List<Message> recoverMessages() {
         final ReceiveMessageRequest receiveRequest = ReceiveMessageRequest.builder().queueUrl(queueUrl).build();
@@ -41,6 +44,5 @@ public class SQSReader extends SQSHandler {
 
         return List.of(message1, message2);
     }
-
 
 }
