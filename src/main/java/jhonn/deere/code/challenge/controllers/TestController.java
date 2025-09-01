@@ -1,5 +1,6 @@
 package jhonn.deere.code.challenge.controllers;
 
+import jhonn.deere.code.challenge.dto.Session;
 import jhonn.deere.code.challenge.services.RecordedSessionsService;
 import jhonn.deere.code.challenge.services.SQSHandlers.SQSReaderService;
 import jhonn.deere.code.challenge.services.utils.Json_message_utils;
@@ -7,7 +8,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class TestController {
@@ -23,8 +28,8 @@ public class TestController {
 
     /**
      * This method exists exclusively to execute the program on demand, and test the 2 cases defined on the text.
-     *  The whole of the program should be defined as a batch process or an on demand message handler.
-     *  If it where a Batch process, there could be multiple instances of itself running based on parameters which would make it more expensive on AWS, but way faster also.
+     * The whole of the program should be defined as a batch process or an on demand message handler.
+     * If it where a Batch process, there could be multiple instances of itself running based on parameters which would make it more expensive on AWS, but way faster also.
      *
      * @return Returns a String to the front with each test case result. Shouldn't exist.
      */
@@ -40,8 +45,16 @@ public class TestController {
     }
 
 
-
-
+    @PostMapping("/execute-case")
+    public ResponseEntity<String> executeAction(@RequestBody Session data) {
+        // ON DEMAND EXECUTION OF TEST CASE
+        LOGGER.info("StartExecutionOfBaseLineTest");
+        // CONNECT WITH SQS
+        // RECOVER AND TRANSLATE SQS1 MESSAGES
+        final String responseMessage = recordedSessionsService.ejecuteProcess(
+                List.of(data), Boolean.TRUE).toString();
+        return ResponseEntity.ok(responseMessage);
+    }
 
 
 }
