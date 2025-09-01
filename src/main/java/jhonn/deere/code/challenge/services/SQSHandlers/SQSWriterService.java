@@ -12,6 +12,11 @@ public class SQSWriterService extends SQSBaseHandler {
         super(Boolean.FALSE);
     }
 
+    /**
+     * sends the message to the SQS2.
+     *
+     * @param messageBody
+     */
     public void sendMessage(final String messageBody) {
         final SendMessageRequest sendMsgRequest = SendMessageRequest.builder()
                 .queueUrl(queueUrl)

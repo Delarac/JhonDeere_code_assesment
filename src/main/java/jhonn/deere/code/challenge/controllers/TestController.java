@@ -21,7 +21,13 @@ public class TestController {
         this.sqsReaderService = sqsReaderService;
     }
 
-    // THIS ONLY EXISTS SO THAT I CAN MAKE A EXECUTION FROM AN ENDPOINT, THIS WHOLE THING SHOULD BE A BATCH Or ON demand message handler program...
+    /**
+     * This method exists exclusively to execute the program on demand, and test the 2 cases defined on the text.
+     *  The whole of the program should be defined as a batch process or an on demand message handler.
+     *  If it where a Batch process, there could be multiple instances of itself running based on parameters which would make it more expensive on AWS, but way faster also.
+     *
+     * @return Returns a String to the front with each test case result. Shouldn't exist.
+     */
     @GetMapping("/execute")
     public ResponseEntity<String> executeAction() {
         // ON DEMAND EXECUTION OF TEST CASE
@@ -32,5 +38,10 @@ public class TestController {
                 Json_message_utils.parseMessages(sqsReaderService.recoverMessagesMock()), Boolean.TRUE).toString();
         return ResponseEntity.ok(responseMessage);
     }
+
+
+
+
+
 
 }

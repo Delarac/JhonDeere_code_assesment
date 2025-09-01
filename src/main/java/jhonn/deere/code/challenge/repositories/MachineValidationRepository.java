@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MachineValidationRepository extends
         JpaRepository<MachineValidation, Long> {
+    /**
+     * This repo is only defined to save the Machine validation.
+     */
 }

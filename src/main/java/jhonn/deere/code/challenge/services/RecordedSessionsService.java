@@ -20,7 +20,14 @@ public class RecordedSessionsService {
     private final SQSWriterService sqsWriterService;
     private final MachineValidationService machineValidationService;
 
-    // THIS WOULD USUALLY BE Called by a Batch process or a Message handler from SQS on recieved message or a RabbitMSQ handler.
+
+    /**
+     * // THIS WOULD USUALLY BE Called by a Batch process or a Message handler from SQS on recieved message or a RabbitMSQ handler.
+     *
+     * @param recordedSessionRepository - Repo for saving the messages handled previously.
+     * @param sqsWriterService          -- Service to write messages to de SQS2, based on the Text.
+     * @param machineValidationService  -- Service to validate the machine validity on demand.
+     */
     public RecordedSessionsService(final RecordedSessionRepository recordedSessionRepository,
                                    final SQSWriterService sqsWriterService,
                                    final MachineValidationService machineValidationService) {
@@ -29,6 +36,15 @@ public class RecordedSessionsService {
         this.machineValidationService = machineValidationService;
     }
 
+    /**
+     * This method has lots of things that should be changed and upgraded based, like
+     * Executing a single session, grouping messages by machine and checking once instead of multiple times,
+     * Validating the response of the writer even though it wasn't defined on the coding challenge.
+     *
+     * @param sqsresponses   - This is an easy solution to the challenge, a list of parsed entries to test.
+     * @param validationMock - This is exclusive for mocking purpouses, shouldn't exist.
+     * @return -- Returns a Map, so that Some information about the entries can be returned to the Get endpoint, shouldn't exist basically, but it was the fastest solution.
+     */
     public Map<String, String> ejecuteProcess(final List<Session> sqsresponses, // List here so Unit tests are easier, but should be divided on 2 methods, one to list and one to validate.
                                               final boolean validationMock) { // Validation mock shouldn't exist...
         // I'm doing this only so there is feedback on  executing the endpoint.
@@ -65,4 +81,6 @@ public class RecordedSessionsService {
         }
         return responses;
     }
+
+
 }

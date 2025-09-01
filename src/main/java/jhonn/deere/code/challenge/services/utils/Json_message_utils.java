@@ -12,6 +12,11 @@ import java.util.List;
 public class Json_message_utils {
     private static final Logger LOGGER = LogManager.getLogger(Json_message_utils.class);
 
+    /**
+     * Pareses from a message to a Session Object.
+     * @param message
+     * @return
+     */
     public static Session extractSessionFromJson(final String message) {
         try {
             Gson gson = new Gson();
@@ -22,6 +27,11 @@ public class Json_message_utils {
         }
     }
 
+    /**
+     * Parses from a Session to Json Object so it can be sent to Sqs2 based on the text requirements.
+     * @param session
+     * @return
+     */
     public static String createJsonFromSession(final Session session) {
         try {
             Gson gson = new Gson();
@@ -32,6 +42,12 @@ public class Json_message_utils {
         }
     }
 
+    /**
+     * Translates a list of messages, to a list of sessions, based on my interpretation of the input based on the text. 
+     *
+     * @param messages
+     * @return
+     */
     public static List<Session> parseMessages(final List<Message> messages) {
         final List<Session> sessionsResponse = new ArrayList<>();
         for (final Message message : messages) {

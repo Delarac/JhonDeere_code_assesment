@@ -16,6 +16,11 @@ public class SQSReaderService extends SQSBaseHandler {
         super(Boolean.TRUE);
     }
 
+    /**
+     * Recovers acumulated SQS messages on a URI, asuming there isn't a on demand message handler like there would be on RabbitMQP.
+     *
+     * @return
+     */
     public List<Message> recoverMessages() {
         final ReceiveMessageRequest receiveRequest = ReceiveMessageRequest.builder().queueUrl(queueUrl).build();
         final ReceiveMessageResponse response = sqsClient.receiveMessage(receiveRequest);

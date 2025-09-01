@@ -20,6 +20,12 @@ public class SQSBaseHandler {
     protected String queueUrl;
     protected static final Logger LOGGER = LogManager.getLogger(SQSBaseHandler.class);
 
+    /**
+     * Connects to the AWS SQS endpoint based on multiple definitions This would need adjusting based on demand, also, on message posted listeners would suit this task.
+     *
+     * @param reader
+     * @throws IOException
+     */
     public SQSBaseHandler(final boolean reader) throws IOException {
         // THIS WHOLE THING SHOULD BE DEFINED WITH PROPER CREDENTIALS, and TESTED.
         final InputStream input =

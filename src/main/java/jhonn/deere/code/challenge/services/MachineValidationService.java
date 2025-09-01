@@ -23,6 +23,17 @@ public class MachineValidationService {
         this.machineValidationRepository = machineValidationRepository;
     }
 
+    /**
+     * Validates machine based on a Id Check on an external API reached via REST.
+     * I assumed it would be a POST message although it could be PUT or GET depending on what the endpoint does,
+     *      would have to modify several things to make it work correctly.
+     * On the challenge it doesn't specify the validity of a machine validation,
+     *      assumed it was handled on demand, but I would add a check to see if there is a previous entry recently if there was.
+     * Would recommend that this is added to the challenge Tbh.
+     *
+     * @param machineId ID of the machine
+     * @return Boolean validation if the response is 200 OK or anything else Ko, assumed not valid machine would be 403.
+     */
     public boolean validateMachine(final int machineId) {
         try {
             final String json = "{ \"machineId\":\"%s\"}";
@@ -48,6 +59,12 @@ public class MachineValidationService {
         return Boolean.FALSE;
     }
 
+    /**
+     * It's a Mock, saves to BD on demand. Exclusively to comply with the test text.
+     * @param machineId
+     * @param validation
+     * @return
+     */
     public boolean validateMachineMock(final int machineId, final boolean validation) {
         machineValidationRepository.save(new MachineValidation(LocalDateTime.now(), machineId, (validation) ? "OK" : "KO"));
         return validation;
