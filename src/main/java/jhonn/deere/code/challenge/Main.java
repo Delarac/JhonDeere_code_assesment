@@ -6,26 +6,32 @@ import org.apache.log4j.Logger;
 
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class);
-    static final String FIRST_DATASET = "{sessionGuid: \"a65de8c4-6385-4008-be36-5df0c5104fd5\",sequenceNumber: 1,machineId: 1,data: [{type: \"distance\",unit: \"m\",value: \"100\"},{type: \"workedSurface\",unit: \"m2\",value: \"600\"}]}";
-    static final String SECOND_DATASET = "{sessionGuid: \"a65de8c4-6385-4008-be36-5df0c5104fd5\",sequenceNumber: 2,machineId: 1,data: [{type: \"distance\",unit: \"m\",value: \"102\"},{type: \"workedSurface\",unit: \"m2\",value: \"610\"}]}";
-
-
     public static void main(String[] args) {
-        logger.debug("APP_ENTRY_POINT");
+        logger.info("APP_ENTRY_POINT");
         try {
-
+            // CONNECT WITH SQS
             final SQSReader sqsReader = new SQSReader();
             final SQSWriter sqsWriter = new SQSWriter();
-            sqsReader.recoverMessagesMock();
-            java.util.List<Session> SQSResponses = Json_message_utils.parseMessages(sqsReader.recoverMessagesMock());
+            // RECOVER AND TRANSLATE SQS1 MESSAGES
+            java.util.List<Session> sqsresponses = Json_message_utils.parseMessages(sqsReader.recoverMessagesMock());
+            // VERIFY SQS RESPONSE
+                for(final Session session : sqsresponses){
+                    // IF NOT PREVIOUSLY ON THE DATABASE AND VERIFIED OK SEND TO SQS2.
+                    if( //VALIDAR NO PREVIO BD
+                        ExternalSessionValidator.validateMachineMock(session.getMachineId())){
+                        sqsWriter.sendMessageMock(Json_message_utils.createJsonFromSession(session));
+                    }
+                    // SAVE TO DATABASE INTERACTION.
 
 
-            sqsWriter.sendMessageMock("");
+                }
 
         } catch (final Exception ex) {
-            logger.error("Error occurred while recovering messages", ex);
+            // I usually define an Exception type with a message and push the previously written message, but this will suffice.
+            logger.error("Error in the main app", ex);
         }
 
+        logger.info("APP_EXIT_POINT");
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
 public class Json_message_utils {
     private static final Logger logger = Logger.getLogger(Json_message_utils.class);
 
-    public static Session translateMessage(final String message) {
+    public static Session extractSessionFromJson(final String message) {
         try {
 
             Gson gson = new Gson();
@@ -21,13 +21,22 @@ public class Json_message_utils {
             logger.error("Error parsing the AWS SQS Message", ex);
             throw ex;
         }
+    }
 
+    public static String createJsonFromSession(final Session session) {
+        try {
+            Gson gson = new Gson();
+            return gson.toJson(session);
+        } catch (Exception ex) {
+            logger.error("Error converting the Session object to JSON", ex);
+            throw ex;
+        }
     }
 
     public static List<Session> parseMessages(final List<Message> messages) {
         final List<Session> sessionsResponse = new ArrayList<>();
         for (final Message message : messages) {
-            sessionsResponse.add(translateMessage(message.body()));
+            sessionsResponse.add(extractSessionFromJson(message.body()));
         }
         return sessionsResponse;
     }
