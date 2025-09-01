@@ -45,6 +45,13 @@ public class TestController {
     }
 
 
+    /**
+     * On demand endpoint to use for testing and for more in depth analysis of the built program.
+     * curl -X POST -H "Content-Type: application/json" -d '{"sessionGuid": "a65de8c4-6385-4008-be36-5df0c5104fd2","sequenceNumber": 2,"machineId": 1,"data": [{"type": "distance","unit": "m","value": "102"},{"type": "workedSurface","unit": "m2","value": "610"}]}' http://localhost:8080/execute-case
+     *
+     * @param data
+     * @return
+     */
     @PostMapping("/execute-case")
     public ResponseEntity<String> executeAction(@RequestBody Session data) {
         // ON DEMAND EXECUTION OF TEST CASE

@@ -18,9 +18,14 @@ public class MachineValidationService {
     private static final Logger LOGGER = LogManager.getLogger(Json_message_utils.class);
 
     private final MachineValidationRepository machineValidationRepository;
+    private HttpClient httpClient;
 
-    public MachineValidationService(MachineValidationRepository machineValidationRepository) {
+    public MachineValidationService(MachineValidationRepository machineValidationRepository ) {
         this.machineValidationRepository = machineValidationRepository;
+    }
+
+    public void setHttpClient(HttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 
     /**
@@ -36,8 +41,10 @@ public class MachineValidationService {
      */
     public boolean validateMachine(final int machineId) {
         try {
+            if(httpClient == null){
+                this.httpClient = HttpClient.newHttpClient();
+            }
             final String json = "{ \"machineId\":\"%s\"}";
-            HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://api.example.com/endpoint"))
                     // THIS SHOULD BE AN ENVIRONMENT VARIABLE in a Service for a Springboot app for example.
@@ -47,7 +54,7 @@ public class MachineValidationService {
                             .ofString(String.format(json, machineId)))  // replace "post_data" with your data
                     .build();
 
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             LOGGER.info("Response status code: " + response.statusCode());
             LOGGER.info("Response body: " + response.body());
             // ASSUMING RETURNS 403 in case machine is not allowed.
